@@ -13,8 +13,8 @@ themes_file = 'themes.txt'
 hashtags_file = 'hashtags.txt'
 comments_file = 'comments.txt'
 num_sessions = int(1e7)
-session_sleep = 10*60 #seconds
-power_nap_sleep = 2*60 #seconds
+session_sleep = 2.5*10*60 #seconds
+power_nap_sleep = 2.5*2*60 #seconds
 
 def power_nap():
 	sleep_time = random.randint(power_nap_sleep,3*power_nap_sleep)
@@ -56,6 +56,13 @@ def tune_session(session, min_followers, like_percentage, comment_percetage):
 	session.set_do_like(enabled=True, percentage=like_percentage)
 	session.set_do_comment(enabled=True, percentage=comment_percetage)
 	session.set_do_follow(enabled=True, percentage=1, times=1)
+	session.set_quota_supervisor(enabled=True,
+                            sleep_after=["likes", "follows", "comments_d"],
+                            sleepyhead=True, stochastic_flow=True,
+                            notify_me=True,
+                            peak_likes=(100, 1000),
+                            peak_comments=(21, 250),
+                            peak_follows=(200, None))
 
 themes = get_file_contents('themes.txt')
 hashtags = get_file_contents('hashtags.txt')
