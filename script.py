@@ -78,11 +78,12 @@ with open(credentials_file) as file:
 insta_username = credentials['username']
 insta_password = credentials['password']
 
+session = InstaPy(username=insta_username,
+                  password=insta_password,
+                  headless_browser=False)
+
 for i in range(num_sessions):
 	try:
-		session = InstaPy(username=insta_username,
-		                  password=insta_password,
-		                  headless_browser=False)
 		with smart_run(session):
 			
 			shuffle(comments)
