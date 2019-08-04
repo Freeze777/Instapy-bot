@@ -68,15 +68,15 @@ themes = get_file_contents('themes.txt')
 hashtags = get_file_contents('hashtags.txt')
 comments = get_file_contents('comments.txt')
 
-tailmsg = "Don't forget to checkout my page :) @freeze_francis."
-#tailmsg = "Have a great day!"
-comments = [comment.strip()+' '+tailmsg for comment in comments]
-
 with open(credentials_file) as file:
     credentials = json.load(file)
 
 insta_username = credentials['username']
 insta_password = credentials['password']
+
+tailmsg = "Do have a look at my page :)." + insta_username
+#tailmsg = "Have a great day!"
+comments = [comment.strip()+' '+tailmsg for comment in comments]
 
 session = InstaPy(username=insta_username,
                   password=insta_password,
