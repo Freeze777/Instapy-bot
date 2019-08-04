@@ -8,6 +8,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+#cookie file path - /Users/freezf/InstaPy/logs/freeze_francis
+
 credentials_file = 'credentials.json'
 themes_file = 'themes.txt'
 hashtags_file = 'hashtags.txt'
@@ -60,9 +62,9 @@ def tune_session(session, min_followers, like_percentage, comment_percetage):
                             sleep_after=["likes", "follows", "comments_d"],
                             sleepyhead=True, stochastic_flow=True,
                             notify_me=True,
-                            peak_likes=(100, 1000),
-                            peak_comments=(21, 250),
-                            peak_follows=(200, None))
+                            peak_likes=(50, 500),
+                            peak_comments=(10, 100),
+                            peak_follows=(50, None))
 
 themes = get_file_contents('themes.txt')
 hashtags = get_file_contents('hashtags.txt')
@@ -74,19 +76,21 @@ with open(credentials_file) as file:
 insta_username = credentials['username']
 insta_password = credentials['password']
 
-tailmsg = "Do have a look at my page :)." + insta_username
+tailmsg = "Do have a look at my page :). @" + insta_username
 #tailmsg = "Have a great day!"
 comments = [comment.strip()+' '+tailmsg for comment in comments]
 
 session = InstaPy(username=insta_username,
                   password=insta_password,
-                  headless_browser=False)
+                  headless_browser=True)
 
 for i in range(num_sessions):
 	try:
 		with smart_run(session):
 			
 			shuffle(comments)
+			shuffle(themes)
+			shuffle(hashtags)
 			tune_session(session,1000,100,100)
 			session.set_comments(comments)
 
